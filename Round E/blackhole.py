@@ -7,6 +7,8 @@
 # Space: O(1)
 #
 
+from math import atan2, sin, cos
+
 def inner_product(a, b):
     return a[0]*b[0]+a[1]*b[1]+a[2]*b[2]
 
@@ -29,15 +31,13 @@ def matrix_multi(A, B):
                 result[i][j] += A[i][k] * B[k][j]
     return result
 
-def rotate_y(matrix, sinx):
-    cosx = (1.0-sinx**2)**0.5
+def rotate_y(matrix, cosx, sinx):
     Ry = [[cosx, 0.0, -sinx],
           [ 0.0, 1.0,   0.0],
           [sinx, 0.0,  cosx]]
     return matrix_multi(matrix, Ry)
     
-def rotate_x(matrix, sinx):
-    cosx = (1.0-sinx**2)**0.5
+def rotate_x(matrix, cosx, sinx):
     Rx = [[1.0,   0.0,  0.0],
           [0.0,  cosx, sinx],
           [0.0, -sinx, cosx]]
@@ -52,23 +52,28 @@ def normal_vector(a, b):
         return [int(i == j) for i in xrange(3)]
     return [a[1], -a[0], 0]
 
-def sin(a, b):
-    return length(outer_product(a, b))/length(a)/length(b)
+def angle(a, b):
+    return atan2(length(outer_product(a, b)), inner_product(a, b))
+
+def multiply(a, l):
+    return [x*l for x in a]
+
+def normalized(a, b, ref_vec):
+    result = multiply(a, 1/length(a))
+    if inner_product(outer_product(a, b), ref_vec) < 0:
+        return multiply(a, -1)
+    return result
 
 def rotate_to_xy_plane(a, b):
     matrix = [normal_vector(a, b), a, b]
-    x_norm = [0, matrix[0][1], matrix[0][2]]
+    x_norm = normalized([0, matrix[0][1], matrix[0][2]], [0, 0, 1], [1, 0, 0])
     if x_norm != [0]*3:
-        sinx = sin(x_norm, (0, 0, 1))
-        m1 = rotate_x(matrix, sinx)
-        m2 = rotate_x(matrix, -sinx)
-        matrix = m1 if abs(m1[0][1]) < abs(m2[0][1]) else m2  # find which direction makes matrix[0][1] zero
-    y_norm = list(matrix[0])
+        theta = angle(x_norm, [0, 0, 1])
+        matrix = rotate_x(matrix, cos(theta), sin(theta))
+    y_norm = normalized(matrix[0], [0, 0, 1], [0, 1, 0])
     if y_norm != [0]*3:
-        siny = sin(y_norm, (0, 0, 1))
-        m1 = rotate_y(matrix, siny)
-        m2 = rotate_y(matrix, -siny)
-        matrix = m1 if abs(m1[0][0]) < abs(m2[0][0]) else m2  # find which direction makes matrix[0][0] zero
+        theta = angle(y_norm, [0, 0, 1])
+        matrix = rotate_y(matrix, cos(theta), sin(theta)) 
     return matrix[1][:2], matrix[2][:2]
 
 def circle_contain(a, p):
@@ -141,6 +146,6 @@ def blackhole():
     return binary_search(0.0,  max(length(vector(a, b)), length(vector(b, c)), length(vector(c, a))), lambda x: check(a, b, c, x))
 
 INF = float("inf")
-EPS = 10**(-11)
+EPS = 10**(-12)
 for case in xrange(input()):
     print 'Case #%d: %s' % (case+1, blackhole())
