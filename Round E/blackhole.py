@@ -1,9 +1,9 @@
 # Copyright (c) 2021 kamyu. All rights reserved.
 #
 # Google Kick Start 2017 Round E - Problem C. Blackhole
-# https://codingcompetitions.withgoogle.com/kickstart/round/0000000000436140/000000000068c2c3
+# https://codingcompetitions.withgoogle.com/kickstart/round/0000000000201bfe/0000000000201b78
 #
-# Time:  O(log(MAX_D))
+# Time:  O(log(MAX_D)), MAX_D is the max distance between each pair of points
 # Space: O(1)
 #
 
@@ -107,6 +107,7 @@ def overlapped(a, b, c):
         for p in result:
             if circle_contain(c, p):
                 return True
+        return False
     if num == INF:
         return circle_intersect(result, c)[0] >= 1
     return False
