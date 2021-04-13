@@ -140,6 +140,6 @@ def blackhole():
     return binary_search(0.0,  max(length(vector(a, b)), length(vector(b, c)), length(vector(c, a))), lambda x: check(a, b, c, x))
 
 INF = float("inf")
-EPS = 1.0/10**11
+EPS = 10**(-11)
 for case in xrange(input()):
     print 'Case #%d: %s' % (case+1, blackhole())
