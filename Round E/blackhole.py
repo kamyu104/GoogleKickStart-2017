@@ -89,7 +89,7 @@ def circle_intersect(a, b):
     Dx = X2-X1
     Dy = Y2-Y1
     D = (Dx**2 + Dy**2)**0.5
-    if D > R1 + R2:
+    if D > R1+R2:
         return 0, None  # disjoint circles
     if D > R2-R1:
         chord_dist = (R1**2 - R2**2 + D**2)/(2*D)
