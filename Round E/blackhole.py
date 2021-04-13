@@ -93,9 +93,9 @@ def circle_intersect(a, b):
         chord_mid_x = X1 + (chord_dist*Dx)/D
         chord_mid_y = Y1 + (chord_dist*Dy)/D
         I1 = (chord_mid_x + (half_chord_len*Dy)/D,
-            chord_mid_y - (half_chord_len*Dx)/D)
+              chord_mid_y - (half_chord_len*Dx)/D)
         I2 = (chord_mid_x - (half_chord_len*Dy)/D,
-            chord_mid_y + (half_chord_len*Dx)/D)
+              chord_mid_y + (half_chord_len*Dx)/D)
         return 2, (I1, I2)  # two points (include duplicated points)
     return INF, a  # infinite points
 
