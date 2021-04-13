@@ -36,7 +36,7 @@ def rotate_y(matrix, cosx, sinx):
           [ 0.0, 1.0,   0.0],
           [sinx, 0.0,  cosx]]
     return matrix_multi(matrix, Ry)
-    
+
 def rotate_x(matrix, cosx, sinx):
     Rx = [[1.0,   0.0,  0.0],
           [0.0,  cosx, sinx],
@@ -73,7 +73,7 @@ def rotate_to_xy_plane(a, b):
     y_norm = normalized(matrix[0], [0, 0, 1], [0, 1, 0])
     if y_norm != [0]*3:
         theta = angle(y_norm, [0, 0, 1])
-        matrix = rotate_y(matrix, cos(theta), sin(theta)) 
+        matrix = rotate_y(matrix, cos(theta), sin(theta))
     return matrix[1][:2], matrix[2][:2]
 
 def circle_contain(a, p):
