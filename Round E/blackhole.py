@@ -103,7 +103,7 @@ def intersect(a, b, c):
                 return True
         return False
     if num == INF:
-        return circle_intersect(result, c)[0] >= 1
+        return circle_intersect(result, c)[0] != 0
     return False
 
 def has_common(a, b, c):
