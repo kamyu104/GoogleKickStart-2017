@@ -128,7 +128,8 @@ def blackhole():
     points = [map(int, raw_input().strip().split()) for _ in xrange(3)]
     
     a, b, c = rotate_to_xy_plane(points)
-    return binary_search(0.0, sorted([length(vector(a, b)), length(vector(b, c)), length(vector(c, a))])[1], lambda x: check(a, b, c, x))
+    dists = sorted([length(vector(a, b)), length(vector(b, c)), length(vector(c, a))])
+    return binary_search(dists[-1]/6, dists[1], lambda x: check(a, b, c, x))
 
 INF = float("inf")
 EPS = 10**(-12)
