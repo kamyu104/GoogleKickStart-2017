@@ -81,11 +81,11 @@ def circle_intersect(a, b):
     if D > R1+R2:
         return 0, None  # disjoint circles
     if D > R2-R1:
-        chord_dist = (R1**2 - R2**2 + D**2)/(2*D)
-        assert((R1**2 - chord_dist**2) > -INF)
+        chord_dist = (R1**2 - R2**2 + D**2)/(2*D)  # covers two cases R1^2+D^2 >= R2^2, R1^2+D^2 < R2^2
+        assert((R1**2 - chord_dist**2) > -INF)  # may have some small error
         half_chord_len = max(R1**2 - chord_dist**2, 0.0)**0.5
-        chord_mid_x = X1 + (chord_dist*Dx)/D
-        chord_mid_y = Y1 + (chord_dist*Dy)/D
+        chord_mid_x = X1 + (chord_dist*Dx)/D  # covers two cases R1^2+D^2 >= R2^2, R1^2+D^2 < R2^2
+        chord_mid_y = Y1 + (chord_dist*Dy)/D  # covers two cases R1^2+D^2 >= R2^2, R1^2+D^2 < R2^2
         I1 = (chord_mid_x + (half_chord_len*Dy)/D,
               chord_mid_y - (half_chord_len*Dx)/D)
         I2 = (chord_mid_x - (half_chord_len*Dy)/D,
