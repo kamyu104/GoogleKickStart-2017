@@ -21,6 +21,14 @@ def length(a):
 def vector(a, b):
     return [a[i]-b[i] for i in xrange(len(a))]
 
+def normalized(a):
+    l = length(a)
+    return [x*l for x in a]
+
+def angle(a, b, norm):
+    a, b = normalized(a), normalized(b)
+    return atan2(inner_product(outer_product(a, b), norm), inner_product(a, b))
+
 def matrix_multi(A, B):
     result = [[0.0 for _ in xrange(len(B[0]))] for _ in xrange(len(A))]
     for i in xrange(len(A)):
@@ -47,32 +55,17 @@ def normal_vector(a, b):
     result = outer_product(a, b)
     if result != [0, 0, 0]:
         return result
-    if 0 in a:
-        j = a.index(0)
-        return [int(i == j) for i in xrange(3)]
-    return [a[1], -a[0], 0]
-
-def angle(a, b):
-    return atan2(length(outer_product(a, b)), inner_product(a, b))
-
-def multiply(a, l):
-    return [x*l for x in a]
-
-def normalized(a, b, ref_vec):
-    result = multiply(a, 1/length(a))
-    if inner_product(outer_product(a, b), ref_vec) < 0:
-        return multiply(a, -1)
-    return result
+    return [0, 0, 1] if a[2] == 0 else [a[1], -a[0], 0]  # give a default normal vector of plane
 
 def rotate_to_xy_plane(a, b):
     matrix = [normal_vector(a, b), a, b]
-    x_norm = normalized([0, matrix[0][1], matrix[0][2]], [0, 0, 1], [1, 0, 0])
-    if x_norm != [0]*3:
-        theta = angle(x_norm, [0, 0, 1])
+    v = [0, matrix[0][1], matrix[0][2]]
+    if v != [0]*3:
+        theta = angle(v, [0, 0, 1], [1, 0, 0])
         matrix = rotate_x(matrix, cos(theta), sin(theta))
-    y_norm = normalized(matrix[0], [0, 0, 1], [0, 1, 0])
-    if y_norm != [0]*3:
-        theta = angle(y_norm, [0, 0, 1])
+    v = list(matrix[0])
+    if v != [0]*3:
+        theta = angle(v, [0, 0, 1], [0, 1, 0])
         matrix = rotate_y(matrix, cos(theta), sin(theta))
     return matrix[1][:2], matrix[2][:2]
 
