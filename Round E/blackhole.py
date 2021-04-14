@@ -70,7 +70,7 @@ def rotate_to_xy_plane(points):
     if v != [0]*3:
         theta = angle(v, [0, 0, 1], [0, 1, 0])
         matrix = rotate_y(matrix, cos(theta), sin(theta))
-    return [[i, j] for i, j, _ in matrix[1:]]
+    return [[x, y] for x, y, _ in matrix[1:]]
 
 def circle_contain(a, p):
     return (p[0]-a[0][0])**2 + (p[1]-a[0][1])**2 <= a[1]**2
