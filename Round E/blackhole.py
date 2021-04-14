@@ -10,7 +10,7 @@
 from math import atan2, sin, cos
 
 def inner_product(a, b):
-    return a[0]*b[0]+a[1]*b[1]+a[2]*b[2]
+    return sum(a[i]*b[i] for i in xrange(len(a)))
 
 def outer_product(a, b):
     return [a[1]*b[2]-a[2]*b[1], a[2]*b[0]-a[0]*b[2], a[0]*b[1]-a[1]*b[0]]
