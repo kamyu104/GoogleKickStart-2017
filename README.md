@@ -9,4 +9,4 @@ Python solutions of Google Kick Start 2017. Solution begins with `*` means it wi
 ## Round E
 | # | Title | Solution | Time | Space | Difficulty | Tag | Note |
 |---| ----- | -------- | ---- | ----- | ---------- | --- | ---- |
-|C| [Blackhole](https://codingcompetitions.withgoogle.com/kickstart/round/0000000000201bfe/0000000000201b78)| [Python](./Round%20E/blackhole.py)| _O(logD)_ | _O(1)_ | Hard | | Matrix Rotation, Binary Search, Geometry |
+|C| [Blackhole](https://codingcompetitions.withgoogle.com/kickstart/round/0000000000201bfe/0000000000201b78)| [Python](./Round%20E/blackhole.py)| _O(log(MAX_D))_ | _O(1)_ | Hard | | Matrix Rotation, Binary Search, Geometry |

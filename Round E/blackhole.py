@@ -3,7 +3,7 @@
 # Google Kick Start 2017 Round E - Problem C. Blackhole
 # https://codingcompetitions.withgoogle.com/kickstart/round/0000000000201bfe/0000000000201b78
 #
-# Time:  O(logD), D is the second farthest distance in 3 pairs of points
+# Time:  O(log(MAX_D)), MAX_D is the max distance in 3 pairs of points
 # Space: O(1)
 #
 
@@ -128,8 +128,8 @@ def blackhole():
     points = [map(int, raw_input().strip().split()) for _ in xrange(3)]
     
     a, b, c = rotate_to_xy_plane(points)
-    dists = sorted([length(vector(a, b)), length(vector(b, c)), length(vector(c, a))])
-    return binary_search(dists[-1]/6, dists[1], lambda x: check(a, b, c, x))
+    max_dist = max(length(vector(a, b)), length(vector(b, c)), length(vector(c, a)))
+    return binary_search(max_dist/6, max_dist/2, lambda x: check(a, b, c, x))
 
 INF = float("inf")
 EPS = 10**(-12)
