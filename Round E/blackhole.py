@@ -3,7 +3,7 @@
 # Google Kick Start 2017 Round E - Problem C. Blackhole
 # https://codingcompetitions.withgoogle.com/kickstart/round/0000000000201bfe/0000000000201b78
 #
-# Time:  O(logD)), D is the second farthest distance in 3 pairs of points
+# Time:  O(logD), D is the second farthest distance in 3 pairs of points
 # Space: O(1)
 #
 
