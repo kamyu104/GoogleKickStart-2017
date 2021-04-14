@@ -60,8 +60,8 @@ def normal_vector(a, b):
         return [int(i == j) for i in xrange(3)]  # give a default normal vector of plane
     return [a[1], -a[0], 0]  # give a default normal vector of plane
 
-def rotate_to_xy_plane(a, b):
-    matrix = [normal_vector(a, b), a, b]
+def rotate_to_xy_plane(points):
+    matrix = [normal_vector(vector(points[0], points[1]), vector(points[0], points[2]))]+points
     v = [0, matrix[0][1], matrix[0][2]]
     if v != [0]*3:
         theta = angle(v, [0, 0, 1], [1, 0, 0])
@@ -70,7 +70,7 @@ def rotate_to_xy_plane(a, b):
     if v != [0]*3:
         theta = angle(v, [0, 0, 1], [0, 1, 0])
         matrix = rotate_y(matrix, cos(theta), sin(theta))
-    return matrix[1][:2], matrix[2][:2]
+    return [[i, j] for i, j, _ in matrix[1:]]
 
 def circle_contain(a, p):
     return (p[0]-a[0][0])**2 + (p[1]-a[0][1])**2 <= a[1]**2
@@ -133,12 +133,8 @@ def binary_search(left, right, check):
 
 def blackhole():
     points = [map(int, raw_input().strip().split()) for _ in xrange(3)]
-    for p in reversed(points):
-        p[0] -= points[0][0]
-        p[1] -= points[0][1]
-        p[2] -= points[0][2]
-    a = [0, 0]
-    b, c = rotate_to_xy_plane(points[1], points[2])
+    
+    a, b, c = rotate_to_xy_plane(points)
     return binary_search(0.0, max(length(vector(a, b)), length(vector(b, c)), length(vector(c, a))), lambda x: check(a, b, c, x))
 
 INF = float("inf")
