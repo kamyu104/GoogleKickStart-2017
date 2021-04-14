@@ -65,11 +65,11 @@ def rotate_to_xy_plane(points):
     v = [0, matrix[0][1], matrix[0][2]]
     if v != [0]*3:
         theta = angle(v, [0, 0, 1], [1, 0, 0])
-        matrix = rotate_x(matrix, cos(theta), sin(theta))
+        matrix = rotate_x(matrix, cos(theta), sin(theta))  # rotate from v to z-axis by theta
     v = list(matrix[0])
     if v != [0]*3:
         theta = angle(v, [0, 0, 1], [0, 1, 0])
-        matrix = rotate_y(matrix, cos(theta), sin(theta))
+        matrix = rotate_y(matrix, cos(theta), sin(theta))  # rotate from v to z-axis by theta
     return [[x, y] for x, y, _ in matrix[1:]]
 
 def circle_contain(a, p):
