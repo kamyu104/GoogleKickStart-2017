@@ -82,7 +82,7 @@ def circle_intersect(a, b):
         return 0, None  # disjoint circles
     if D > R2-R1:
         chord_dist = (R1**2 - R2**2 + D**2)/(2*D)  # covers two cases R1^2+D^2 >= R2^2, R1^2+D^2 < R2^2
-        assert((R1**2 - chord_dist**2) > -INF)  # may have some small error
+        assert((R1**2 - chord_dist**2) > -EPS)  # may have some small error
         half_chord_len = max(R1**2 - chord_dist**2, 0.0)**0.5
         chord_mid_x = X1 + (chord_dist*Dx)/D  # covers two cases R1^2+D^2 >= R2^2, R1^2+D^2 < R2^2
         chord_mid_y = Y1 + (chord_dist*Dy)/D  # covers two cases R1^2+D^2 >= R2^2, R1^2+D^2 < R2^2
@@ -98,6 +98,7 @@ def intersect(a, b, c):
     if num == 0:
         return False
     if num == 2:
+        assert(circle_contain(a, p) and circle_contain(b, p) for p in result)
         for p in result:
             if circle_contain(c, p):
                 return True
@@ -116,8 +117,10 @@ def check(a, b, c, r):
     return check_types(a, b, c, r) or check_types(b, c, a, r) or check_types(c, a, b, r)
 
 def binary_search(left, right, check):
-    while abs(right-left)/2.0 > EPS:
+    while True:
         mid = left + (right-left)/2.0
+        if mid in (left, right):
+            break
         if check(mid):
             right = mid
         else:
@@ -129,9 +132,10 @@ def blackhole():
     
     a, b, c = rotate_to_xy_plane(points)
     max_dist = max(length(vector(a, b)), length(vector(b, c)), length(vector(c, a)))
-    return binary_search(max_dist/6, max_dist/2, lambda x: check(a, b, c, x))
+    # left min bound is 3 points in a line, right max bound is 3 points forms a regular triangle
+    return binary_search(max_dist/6, max_dist/(16/(35**0.5-3**0.5)), lambda x: check(a, b, c, x))
 
 INF = float("inf")
-EPS = 10**(-12)
+EPS = 10**(-9)
 for case in xrange(input()):
     print 'Case #%d: %s' % (case+1, blackhole())
