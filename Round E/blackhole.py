@@ -58,10 +58,10 @@ def normal_vector(a, b):
 def rotate_to_xy_plane(points):
     matrix = [normal_vector(vector(points[0], points[1]), vector(points[0], points[2]))]+points
     v = [0, matrix[0][1], matrix[0][2]]
-    theta = angle(v, [0, 0, 1], [1, 0, 0])
+    theta = angle(v, [0, 0, 1], [1, 0, 0])  # if v is zero vector, theta will be 0
     matrix = rotate_x(matrix, cos(theta), sin(theta))  # rotate from v to z-axis by theta
     v = list(matrix[0])
-    theta = angle(v, [0, 0, 1], [0, 1, 0])
+    theta = angle(v, [0, 0, 1], [0, 1, 0]) # if v is zero vector, theta will be 0
     matrix = rotate_y(matrix, cos(theta), sin(theta))  # rotate from v to z-axis by theta
     return [[x, y] for x, y, _ in matrix[1:]]
 
