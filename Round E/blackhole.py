@@ -139,7 +139,7 @@ def blackhole():
         p[2] -= points[0][2]
     a = [0, 0]
     b, c = rotate_to_xy_plane(points[1], points[2])
-    return binary_search(0.0,  max(length(vector(a, b)), length(vector(b, c)), length(vector(c, a))), lambda x: check(a, b, c, x))
+    return binary_search(0.0, max(length(vector(a, b)), length(vector(b, c)), length(vector(c, a))), lambda x: check(a, b, c, x))
 
 INF = float("inf")
 EPS = 10**(-12)
