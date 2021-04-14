@@ -93,7 +93,7 @@ def circle_intersect(a, b):
         return 2, (I1, I2)  # two points (include duplicated points)
     return INF, a  # infinite points
 
-def overlapped(a, b, c):
+def intersect(a, b, c):
     num, result = circle_intersect(a, b)
     if num == 0:
         return False
@@ -106,11 +106,11 @@ def overlapped(a, b, c):
         return circle_intersect(result, c)[0] >= 1
     return False
 
-def check_type(a, b, c):
-    return overlapped(a, b, c) or overlapped(b, c, a) or overlapped(c, a, b)
+def has_common(a, b, c):
+    return intersect(a, b, c) or intersect(b, c, a) or intersect(c, a, b)
 
 def check_types(a, b, c, r):
-    return check_type((a, r), (b, 3*r), (c, 3*r)) or check_type((a, 5*r), (b, r), (c, r))
+    return has_common((a, r), (b, 3*r), (c, 3*r)) or has_common((a, 5*r), (b, r), (c, r))
 
 def check(a, b, c, r):
     return check_types(a, b, c, r) or check_types(b, c, a, r) or check_types(c, a, b, r)
