@@ -117,7 +117,7 @@ def check(a, b, c, r):
     return check_types(a, b, c, r) or check_types(b, c, a, r) or check_types(c, a, b, r)
 
 def binary_search(left, right, check):
-    while abs((right-left)/2.0) > EPS:
+    while ((right-left)/2.0) > EPS:
         mid = left + (right-left)/2.0
         if mid in (left, right):
             break  # avoid infinite loop if EPS is very small
