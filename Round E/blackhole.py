@@ -58,7 +58,7 @@ def normal_vector(a, b):
     if 0 in a:
         j = a.index(0)
         return [int(i == j) for i in xrange(3)]  # give a default normal vector of plane
-    return [a[1], -a[0], 0]  #  give a default normal vector of plane
+    return [a[1], -a[0], 0]  # give a default normal vector of plane
 
 def rotate_to_xy_plane(a, b):
     matrix = [normal_vector(a, b), a, b]
