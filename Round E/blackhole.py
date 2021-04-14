@@ -15,19 +15,14 @@ def inner_product(a, b):
 def outer_product(a, b):
     return [a[1]*b[2]-a[2]*b[1], a[2]*b[0]-a[0]*b[2], a[0]*b[1]-a[1]*b[0]]
 
-def length(a):
-    return sum(x**2 for x in a)**0.5
-
 def vector(a, b):
     return [a[i]-b[i] for i in xrange(len(a))]
 
-def normalized(a):
-    l = length(a)
-    return [x*l for x in a]
+def length(a):
+    return sum(x**2 for x in a)**0.5
 
 def angle(a, b, norm):
-    a, b = normalized(a), normalized(b)
-    return atan2(inner_product(outer_product(a, b), norm), inner_product(a, b))
+    return atan2(inner_product(outer_product(a, b), norm)/length(norm), inner_product(a, b))
 
 def matrix_multi(A, B):
     result = [[0.0 for _ in xrange(len(B[0]))] for _ in xrange(len(A))]
@@ -63,13 +58,11 @@ def normal_vector(a, b):
 def rotate_to_xy_plane(points):
     matrix = [normal_vector(vector(points[0], points[1]), vector(points[0], points[2]))]+points
     v = [0, matrix[0][1], matrix[0][2]]
-    if v != [0]*3:
-        theta = angle(v, [0, 0, 1], [1, 0, 0])
-        matrix = rotate_x(matrix, cos(theta), sin(theta))  # rotate from v to z-axis by theta
+    theta = angle(v, [0, 0, 1], [1, 0, 0])
+    matrix = rotate_x(matrix, cos(theta), sin(theta))  # rotate from v to z-axis by theta
     v = list(matrix[0])
-    if v != [0]*3:
-        theta = angle(v, [0, 0, 1], [0, 1, 0])
-        matrix = rotate_y(matrix, cos(theta), sin(theta))  # rotate from v to z-axis by theta
+    theta = angle(v, [0, 0, 1], [0, 1, 0])
+    matrix = rotate_y(matrix, cos(theta), sin(theta))  # rotate from v to z-axis by theta
     return [[x, y] for x, y, _ in matrix[1:]]
 
 def circle_contain(a, p):
