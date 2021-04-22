@@ -21,6 +21,10 @@ def vector(a, b):
 def length(a):
     return sum(x**2 for x in a)**0.5
 
+def normalized(a):
+    l = length(a)
+    return [x/l for x in a] if l else a
+
 def angle(a, b, norm):
     return atan2(inner_product(outer_product(a, b), norm)/length(norm), inner_product(a, b))
 
@@ -34,17 +38,11 @@ def matrix_multi(A, B):
                 result[i][j] += A[i][k] * B[k][j]
     return result
 
-def rotate_y(matrix, cosx, sinx):
-    Ry = [[cosx, 0.0, -sinx],
-          [ 0.0, 1.0,   0.0],
-          [sinx, 0.0,  cosx]]
-    return matrix_multi(matrix, Ry)
-
-def rotate_x(matrix, cosx, sinx):
-    Rx = [[1.0,   0.0,  0.0],
-          [0.0,  cosx, sinx],
-          [0.0, -sinx, cosx]]
-    return matrix_multi(matrix, Rx)
+def rotate_u(matrix, cosx, sinx, u):
+    Ru = [[cosx+u[0]*u[0]*(1-cosx)     , u[1]*u[0]*(1-cosx)+u[2]*sinx, u[2]*u[0]*(1-cosx)-u[1]*sinx],
+          [u[0]*u[1]*(1-cosx)-u[2]*sinx, cosx+u[1]*u[1]*(1-cosx)     , u[2]*u[1]*(1-cosx)+u[0]*sinx],
+          [u[0]*u[2]*(1-cosx)+u[1]*sinx, u[1]*u[2]*(1-cosx)-u[0]*sinx, cosx+u[2]*u[2]*(1-cosx)     ]]
+    return matrix_multi(matrix, Ru)
 
 def normal_vector(a, b):
     result = outer_product(a, b)
@@ -56,14 +54,12 @@ def normal_vector(a, b):
     return [a[1], -a[0], 0]  # give a default normal vector of plane
 
 def rotate_to_xy_plane(points):
-    matrix = [normal_vector(vector(points[0], points[1]), vector(points[0], points[2]))]+points
-    v = [0, matrix[0][1], matrix[0][2]]
-    theta = angle(v, [0, 0, 1], [1, 0, 0])  # if v is zero vector, theta will be 0
-    matrix = rotate_x(matrix, cos(theta), sin(theta))  # rotate from v to z-axis by theta
-    v = list(matrix[0])
-    theta = angle(v, [0, 0, 1], [0, 1, 0])  # if v is zero vector, theta will be 0
-    matrix = rotate_y(matrix, cos(theta), sin(theta))  # rotate from v to z-axis by theta
-    return [[x, y] for x, y, _ in matrix[1:]]
+    v = normalized(normal_vector(vector(points[0], points[1]), vector(points[0], points[2])))
+    u = normalized(outer_product(v, [0, 0, 1]))
+    if u != [0]*3:
+        theta = angle(v, [0, 0, 1], u)
+        points = rotate_u(points, cos(theta), sin(theta), u)
+    return [[x, y] for x, y, _ in points]
 
 def circle_contain(a, p):
     return (p[0]-a[0][0])**2 + (p[1]-a[0][1])**2 <= a[1]**2
