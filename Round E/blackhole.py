@@ -57,8 +57,7 @@ def rotate_to_xy_plane(points):
     v = normalized(normal_vector(vector(points[0], points[1]), vector(points[0], points[2])))
     u = normalized(normal_vector(v, [0, 0, 1]))
     theta = angle(v, [0, 0, 1], u)
-    points = rotate_u(points, cos(theta), sin(theta), u)
-    return [[x, y] for x, y, _ in points]
+    return [[x, y] for x, y, _ in rotate_u(points, cos(theta), sin(theta), u)]
 
 def circle_contain(a, p):
     return (p[0]-a[0][0])**2 + (p[1]-a[0][1])**2 <= a[1]**2
